@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate, useOutletContext } from "react-router-dom"
-import { Container, Title, Input, Button, Subtitle } from "./style"
+import { Container, Title, Input, Button } from "./style"
 
 export function Login() {
   const [nome, setNome] = useState("")
