@@ -2,8 +2,10 @@
 
 ### Disciplina
 Desenvolvimento de Aplicações Multiplataformas
+
 -Professor:
 Felipe Ferreira Menegueli
+
 -Aluno:
 Ícaro de Assis
 
