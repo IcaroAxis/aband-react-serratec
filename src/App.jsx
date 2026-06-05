@@ -1,4 +1,4 @@
-import { Routers } from './routers/router'
+import { Routers } from "./routers/Router"
 
 function App() {
   return <Routers />
