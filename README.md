@@ -1,7 +1,6 @@
 # Trabalho Individual 1 - Desenvolvimento de Aplicações Multiplataformas
 
-### Disciplina
-Desenvolvimento de Aplicações Multiplataformas
+### A banda!
 
 -Professor:
 Felipe Ferreira Menegueli
