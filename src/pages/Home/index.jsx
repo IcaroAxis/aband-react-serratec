@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useOutletContext } from "react-router-dom"
 import { dados } from "../../data/dados"
 import { Card } from "../../components/CardMusico"
 import {
@@ -15,29 +16,33 @@ const categorias = [
 ]
 
 export function Home() {
-  const [banda, setBanda] = useState({
-    guitarrista: "",
-    baixista: "",
-    baterista: "",
-    vocalista: "",
-    convidado: "",
+  const { banda, setBanda, nomeUsuario } = useOutletContext()
+
+  const [modoCustom, setModoCustom] = useState({
+    guitarrista: false,
+    baixista: false,
+    baterista: false,
+    vocalista: false,
+    convidado: false,
   })
-  
-  
-
-  const nomeUsuario = localStorage.getItem("nomeUsuario")
-
-  useEffect(() => {
-    localStorage.setItem("banda", JSON.stringify(banda))
-  }, [banda])
 
   function handleChange(categoria, valor) {
+    if (valor === "__custom__") {
+      setModoCustom((prev) => ({ ...prev, [categoria]: true }))
+      setBanda((prev) => ({ ...prev, [categoria]: "" }))
+    } else {
+      setModoCustom((prev) => ({ ...prev, [categoria]: false }))
+      setBanda((prev) => ({ ...prev, [categoria]: valor }))
+    }
+  }
+
+  function handleCustomInput(categoria, valor) {
     setBanda((prev) => ({ ...prev, [categoria]: valor }))
   }
 
   return (
     <PalcoContainer>
-      <Saudacao>Bem-vindo {nomeUsuario}! Monte sua banda dos sonhos 🎸</Saudacao>
+      <Saudacao>Bem-vindo, {nomeUsuario || "visitante"}! Monte sua banda dos sonhos 🎸</Saudacao>
       <PalcoFundo>
         <Posicoes>
           {categorias.map(({ key, label }) => {
@@ -49,7 +54,7 @@ export function Home() {
                 <Label>{label}</Label>
 
                 <Select
-                  value={banda[key]}
+                  value={modoCustom[key] ? "__custom__" : banda[key]}
                   onChange={(e) => handleChange(key, e.target.value)}
                 >
                   <option value="">-- Escolher --</option>
@@ -61,15 +66,16 @@ export function Home() {
                   <option value="__custom__">✏️ Digitar nome...</option>
                 </Select>
 
-                {banda[key] === "__custom__" && (
+                {modoCustom[key] && (
                   <InputCustom
                     type="text"
                     placeholder="Nome do músico..."
-                    onChange={(e) => handleChange(key, e.target.value)}
+                    value={banda[key]}
+                    onChange={(e) => handleCustomInput(key, e.target.value)}
                   />
                 )}
 
-                {musicoSelecionado && (
+                {!modoCustom[key] && musicoSelecionado && (
                   <Card
                     nome={musicoSelecionado.nome}
                     foto={musicoSelecionado.foto}

@@ -1,9 +1,6 @@
 import { FooterContainer, BandaInfo, Membro } from "./style"
 
-export const Footer = () => {
-  const bandaSalva = JSON.parse(localStorage.getItem("banda") || "{}")
-  const nomeUsuario = localStorage.getItem("nomeUsuario")
-
+export const Footer = ({ banda, nomeUsuario }) => {
   const labels = {
     guitarrista: "🎸 Guitarrista",
     baixista:    "🎵 Baixista",
@@ -14,11 +11,11 @@ export const Footer = () => {
 
   return (
     <FooterContainer>
-      <p>🎶 A banda de {nomeUsuario} é:</p>
+      <p>🎶 A banda de {nomeUsuario || "visitante"} é:</p>
       <BandaInfo>
         {Object.entries(labels).map(([key, label]) => (
           <Membro key={key}>
-            {label}: <strong>{bandaSalva[key] || "Ninguém ainda"}</strong>
+            {label}: <strong>{banda[key] || "Ninguém ainda"}</strong>
           </Membro>
         ))}
       </BandaInfo>
